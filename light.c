@@ -1,8 +1,8 @@
 //Laboratorio de microcontroladores
 //laboratorio2
 
-include <avr / io . h>
-#include < u t i l /delay . h>
+#include <avr/io.h>
+#include < util/delay.h>
 
 //variables globales
 
@@ -43,7 +43,8 @@ int casos(void){
     switch( boton) {
        case presionado:
             switch(estado) {
-                case estado1:
+   //án los siguientes paquetes:
+             case estado1:
                 ldpv = 1; 
                 ldvd = 0; 
                 ldpp = 0; 
