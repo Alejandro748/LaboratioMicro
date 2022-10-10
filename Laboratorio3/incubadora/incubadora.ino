@@ -35,7 +35,7 @@ float inicial;
 float final;
 float E; //error
 float diferencia; //margen 
-float T;
+
 //------------------------------------------------------------
 //para funcion termistor de referencia 2.
 int Vo = 0;
@@ -43,7 +43,7 @@ const float R1 = 10000;
 float logRT;
 float RT; 
 float Temperatura_sensada;
-float Temperatura;
+
 float c1 = 1.009249522e-03; 
 float c2 = 2.378405444e-04; 
 float c3 = 2.019202697e-07;
@@ -63,12 +63,12 @@ float Termistor(){ // De referencia 2.
  return Temperatura_sensada;
 }
 
-void Leds(){
-    if(T<32.0){ 
+void Leds(float temperatura){
+    if(Temperatura<32.0){ 
 	    digitalWrite(Rojo, LOW); //se apaga luz roja
         digitalWrite(Azul, HIGH); //se enciende luz azul 
     }    
-    else if(T>42.0){  
+    else if(Temperatura>42.0){  
  	    digitalWrite(Azul, LOW); //se apaga luz azul
         digitalWrite(Rojo, HIGH); //se enciende luz roja
 	}
@@ -83,7 +83,7 @@ void Leds(){
 
 float Calentamiento(float temperatura_operacion){
 	
-	if (Temperatura_sensada <= 42  || Temperatura_sensada >= 30  || temperatura_operacion <= Temperatura){ 
+	if (Temperatura_sensada <= 42  || Temperatura_sensada >= 30  || temperatura_operacion <= Temperatura_sensada){ 
 		analogWrite(Resistencia, roundf(0)); 
 		return 0; //estos son los casos buenos donde no debemos realizar correcciones
     }
@@ -113,27 +113,37 @@ void setup() {
     pinMode(Rojo,OUTPUT);
 
     //Realizamos configuración pantalla ver referencia 1.
-    display.begin();
+    /*display.begin();
     display.setContrast(60); // Contraste a 60
     display.display(); 
     delay(500); //Tiempo espera
     display.clearDisplay();   // Limpiar pantalla 
     display.setTextSize(2);  // Fuente tamaño 2
-    display.setTextColor(BLACK); //Texto negro
-    }
+    display.setTextColor(BLACK); //Texto negro*/
+    display.begin();
+    display.setContrast(50); // Contraste de la pantalla
+    display.display(); //
+    delay(500);
+    display.clearDisplay();   // Limpia la pantalla 
+    display.setTextSize(1);  // Tamano de fuente
+    display.setTextColor(BLACK); //Color de texto
+}
+    
 //------------------------------------------------------------
 //----------------------------MAIN----------------------------
 //------------------------------------------------------------
 
 void loop() { //Es como el main pero creado por la IDE de Arduino
 	
-	inicial = (analogRead(A4)); //op
-    float hum = analogRead(Humedad)/10; //porcentaje de humedad
-    float OP = inicial / 10;//% punto de operacion PID
-    float T = Temperatura_sensada + E; //temperatura de operacion
-    
+  
+    //llamamos nuestra funcion termistor para encontrar la temperatura sensada
+	float temperatura = Termistor();
 	//llamamos nuestra función de LEDS.
-    Leds();
+    	Leds(temperatura);
+    	inicial = (analogRead(A4)); //op
+    	float hum = analogRead(Humedad)/10; //porcentaje de humedad
+    	float OP = inicial / 10;//% punto de operacion PID
+    	float T = Temperatura + E; //temperatura de operacion
     //Desplegamos en la pantalla
     /*Debemos mostrar
     -Temperatura operacion
@@ -164,7 +174,7 @@ void loop() { //Es como el main pero creado por la IDE de Arduino
 	delay(200);
 	display.clearDisplay();
 	if(digitalRead(PC)==LOW){ //Si la comunicación se encuentra apagada entonces tendremos los siguientes valores por defalt
-		Serial.print("Porcentaje Humedad x default:");
+	Serial.print("Porcentaje Humedad x default:");
     	Serial.print(analogRead(Humedad)/10);
     	Serial.println("%");
         Serial.print("--------------------- \n");
@@ -174,8 +184,7 @@ void loop() { //Es como el main pero creado por la IDE de Arduino
         Serial.print("--------------------- \n");
     	
 	}
-	//llamamos nuestra funcion termistor para encontrar la temperatura sensada
-	Termistor();
+	
 	//Revisamos el margen de error para los calentamientos
 	final = inicial/5; // 5 tension
 	E = final - Temperatura_sensada;
@@ -188,6 +197,5 @@ void loop() { //Es como el main pero creado por la IDE de Arduino
 	}
   
 }
-
 
 
