@@ -8,12 +8,13 @@
 #include <util/delay.h>
 #include <math.h>
 #include <stdio.h>
+
 //------------------------------------------------------------
 //Declaración de funciones
 float Termistor(); //ver referencia 2
-void Leds();
+
 float Calentamiento(float temperatura_operacion);
-void setup();
+
 //------------------------------------------------------------
 // links de referencias 
 /*
@@ -22,17 +23,15 @@ void setup();
 */
 //------------------------------------------------------------
 //Declaracion de pines
-const int Rojo = 3; //led rojo
-const int Azul = 2; //led azul
+
 const int Humedad = A3; //sensor humedad
 const int Termi = A5;//termistor senal
 const int P_Operacion = A4;//punto operacion PID
 const int Resistencia = 11; // resistencia calentamiento
-const int PC = 13; //se crea un canal de comunicación con la PC
+
 //------------------------------------------------------------
 //Declaración variables
-float inicial;
-float final;
+
 float E; //error
 float diferencia; //margen 
 
@@ -63,27 +62,11 @@ float Termistor(){ // De referencia 2.
  return Temperatura_sensada;
 }
 
-void Leds(float temperatura){
-    if(Temperatura<32.0){ 
-	    digitalWrite(Rojo, LOW); //se apaga luz roja
-        digitalWrite(Azul, HIGH); //se enciende luz azul 
-    }    
-    else if(Temperatura>42.0){  
- 	    digitalWrite(Azul, LOW); //se apaga luz azul
-        digitalWrite(Rojo, HIGH); //se enciende luz roja
-	}
-    else{ //no se prenden los leds porque estan dentro del punto operación
-	    digitalWrite(Rojo, LOW);
-        digitalWrite(Azul, LOW);
-	    
 
-	}
-}
 
 
 float Calentamiento(float temperatura_operacion){
-	
-	if (Temperatura_sensada <= 42  || Temperatura_sensada >= 30  || temperatura_operacion <= Temperatura_sensada){ 
+		if (Temperatura_sensada <= 42  || Temperatura_sensada >= 30  || temperatura_operacion <= Temperatura_sensada){ 
 		analogWrite(Resistencia, roundf(0)); 
 		return 0; //estos son los casos buenos donde no debemos realizar correcciones
     }
@@ -104,46 +87,55 @@ float Calentamiento(float temperatura_operacion){
 		}
 	}
 
-
-void setup() {
-    Serial.begin(9600); // segun referencia 2 este es el inicio de puerto serial
-    //A continuación realizamos configuración de los puertos como salidas y entradas
-    pinMode(PC, INPUT);
-    pinMode(Azul,OUTPUT);
-    pinMode(Rojo,OUTPUT);
-
-    //Realizamos configuración pantalla ver referencia 1.
-    /*display.begin();
-    display.setContrast(60); // Contraste a 60
-    display.display(); 
-    delay(500); //Tiempo espera
-    display.clearDisplay();   // Limpiar pantalla 
-    display.setTextSize(2);  // Fuente tamaño 2
-    display.setTextColor(BLACK); //Texto negro*/
-    display.begin();
-    display.setContrast(50); // Contraste de la pantalla
-    display.display(); //
-    delay(500);
-    display.clearDisplay();   // Limpia la pantalla 
-    display.setTextSize(1);  // Tamano de fuente
-    display.setTextColor(BLACK); //Color de texto
+void setup(){
+      Serial.begin(9600);
+      pinMode(13, INPUT);//pc
+      pinMode(2,OUTPUT); //azul
+      pinMode(3,OUTPUT);//rojo
+      display.begin();
+      display.setContrast(50); // Contraste de la pantalla
+      display.display(); //
+      delay(500);
+      display.clearDisplay();   // Limpia la pantalla 
+      display.setTextSize(0.1);  // Tamano de fuente
+      display.setTextColor(BLACK); //Color de texto
 }
-    
+
 //------------------------------------------------------------
 //----------------------------MAIN----------------------------
 //------------------------------------------------------------
 
 void loop() { //Es como el main pero creado por la IDE de Arduino
-	
-  
+      
+      	float T;
     //llamamos nuestra funcion termistor para encontrar la temperatura sensada
-	float temperatura = Termistor();
+	float Temperatura = Termistor();
 	//llamamos nuestra función de LEDS.
-    	Leds(temperatura);
-    	inicial = (analogRead(A4)); //op
+    	
+    	if(Temperatura<32){ 
+      	  digitalWrite(3, LOW); //se apaga luz roja
+          digitalWrite(2, HIGH); //se enciende luz azul 
+          T = 32; //punto operacion
+          E = T -  Temperatura;
+        }    
+        else if(Temperatura>42){  
+          digitalWrite(2, LOW); //se apaga luz azul
+          digitalWrite(3, HIGH); //se enciende luz roja
+          T = 42;//punto de operacion
+          E = T - Temperatura;
+        }
+       else{ //no se prenden los leds porque estan dentro del punto operación
+	  digitalWrite(3, LOW);
+          digitalWrite(2, LOW);
+          E = 0;
+	    
+
+	}
+//Leds(Temperatura);
+    	
     	float hum = analogRead(Humedad)/10; //porcentaje de humedad
-    	float OP = inicial / 10;//% punto de operacion PID
-    	float T = Temperatura + E; //temperatura de operacion
+    	float OP = analogRead(A4) / 10;//% punto de operacion PID
+    	
     //Desplegamos en la pantalla
     /*Debemos mostrar
     -Temperatura operacion
@@ -151,29 +143,29 @@ void loop() { //Es como el main pero creado por la IDE de Arduino
     -Humedad
     -Señal controlador
     */ 
-	display.print("Temperatura Sensada: \n");
+	display.print("T: \n");
 	display.print(Termistor()); //Temperatura Termistor
-	display.print("°C"); 
-	display.print("-------------------------\n");
-    display.print("Temperatura Operacion: ");
+	display.print("C\n"); 
+	
+    display.print("T Op: ");
 	display.print(T); //Temperatura operacion
-	display.print("°C"); 
-    display.print("-------------------------\n");
-	display.print("Punto de Operación PID:");
+	display.print("C\n"); 
+ 
+	display.print("PID:");
 	display.print(OP); 
-    display.print("-------------------------\n");
-	display.print("Porcentaje de Humedad:");
+    
+	display.print("\nH %:");
 	display.print(hum); 
-	display.print("%"); 
-    display.print("-------------------------\n");
-	display.print("Error:");
+	display.print("%\n"); 
+    
+	display.print("E:");
 	display.print(E);
-    display.print("-------------------------\n");
+    //display.print("-------------------------\n");
     
 	display.display();
 	delay(200);
 	display.clearDisplay();
-	if(digitalRead(PC)==LOW){ //Si la comunicación se encuentra apagada entonces tendremos los siguientes valores por defalt
+	if(digitalRead(13)==LOW){ //Si la comunicación se encuentra apagada entonces tendremos los siguientes valores por defalt
 	Serial.print("Porcentaje Humedad x default:");
     	Serial.print(analogRead(Humedad)/10);
     	Serial.println("%");
@@ -185,15 +177,13 @@ void loop() { //Es como el main pero creado por la IDE de Arduino
     	
 	}
 	
-	//Revisamos el margen de error para los calentamientos
-	final = inicial/5; // 5 tension
-	E = final - Temperatura_sensada;
-    float nuevo_punto_operacion = Temperatura_sensada - E;
+
+   // float nuevo_punto_operacion = Temperatura - E;
 	if (E == 0){ 
-		diferencia = Calentamiento(nuevo_punto_operacion); // NO Hacer reajuste xq error es 0
+		diferencia = Calentamiento(Temperatura); // NO Hacer reajuste xq error es 0
 	}
     if (E != 0){															
-		diferencia = Calentamiento(nuevo_punto_operacion);	// Hacer reajuste 
+		diferencia = Calentamiento(T);	// Hacer reajuste 
 	}
   
 }
