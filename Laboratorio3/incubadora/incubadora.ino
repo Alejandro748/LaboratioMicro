@@ -8,7 +8,7 @@
 #include <util/delay.h>
 #include <math.h>
 #include <stdio.h>
-
+#include <SoftwareSerial.h>
 //------------------------------------------------------------
 //Declaración de funciones
 float Termistor(); //ver referencia 2

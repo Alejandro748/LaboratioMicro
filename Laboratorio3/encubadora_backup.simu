@@ -74,7 +74,7 @@ Circuit Id: Battery-127
 
 Unique  Id: Potentiometer-74: 
 Circuit Id: Potentiometer-122
-<item labelrot="0" Unit=" kΩ" Value_Ohm="289" boardRot="-1e+6" circRot="6.9526542715669e-310" y="-436" Show_res="true" valLabRot="0" objectName="Potentiometer-74" hflip="1" vflip="1" labelx="-16" x="20" valLabely="-20" Resistance="1" mainComp="false" circPos="0,0" labely="-40" valLabelx="10" boardPos="-1e+6,-1e+6" id="Potentiometer-122" itemtype="Potentiometer" Show_id="false" rotation="0"/>
+<item labelrot="0" Unit=" kΩ" Value_Ohm="323" boardRot="-1e+6" circRot="6.9526542715669e-310" y="-436" Show_res="true" valLabRot="0" objectName="Potentiometer-74" hflip="1" vflip="1" labelx="-16" x="20" valLabely="-20" Resistance="1" mainComp="false" circPos="0,0" labely="-40" valLabelx="10" boardPos="-1e+6,-1e+6" id="Potentiometer-122" itemtype="Potentiometer" Show_id="false" rotation="0"/>
 
 Unique  Id: Ground-68: 
 Circuit Id: Ground-7
@@ -118,7 +118,7 @@ Circuit Id: Rail-110
 
 Unique  Id: VarResistor-53: 
 Circuit Id: VarResistor-117
-<item labelrot="0" Value_Ohm="722" boardRot="-1e+6" circRot="1.2731974747e-313" y="-392" valLabRot="0" Min_Resistance="0" objectName="VarResistor-53" hflip="1" vflip="1" labelx="-16" x="100" valLabely="30" Dial_Step="1" mainComp="false" circPos="0,0" Max_Resistance="999" labely="-24" valLabelx="-16" boardPos="-1e+6,-1e+6" id="VarResistor-117" itemtype="VarResistor" Show_id="false" rotation="90"/>
+<item labelrot="0" Value_Ohm="848" boardRot="-1e+6" circRot="1.2731974747e-313" y="-392" valLabRot="0" Min_Resistance="0" objectName="VarResistor-53" hflip="1" vflip="1" labelx="-16" x="100" valLabely="30" Dial_Step="1" mainComp="false" circPos="0,0" Max_Resistance="999" labely="-24" valLabelx="-16" boardPos="-1e+6,-1e+6" id="VarResistor-117" itemtype="VarResistor" Show_id="false" rotation="90"/>
 
 Unique  Id: Node-55: 
 Circuit Id: Node-55
@@ -131,6 +131,10 @@ Circuit Id: Node-165
 Unique  Id: Node-168: 
 Circuit Id: Node-168
 <item labelrot="0" boardRot="-1e+6" circRot="1.58513085585106e-310" y="-412" valLabRot="0" objectName="Node-168" hflip="1" vflip="1" labelx="-16" x="-316" valLabely="0" mainComp="false" circPos="0,0" labely="-24" valLabelx="0" boardPos="-1e+6,-1e+6" id="Node-168" itemtype="Node" Show_id="false" rotation="0"/>
+
+Unique  Id: SerialPort-214: 
+Circuit Id: SerialPort-214
+<item labelrot="0" StopBits="1" boardRot="-1e+6" circRot="0" Parity="0" y="-264" Auto_Open="false" FlowControl="0" valLabRot="0" DataBits="8" objectName="SerialPort-214" hflip="1" vflip="1" Port_Name="" labelx="-34" x="-64" valLabely="0" mainComp="false" Mcu_Id="Arduino Uno-1" circPos="0,0" BaudRate="9600" labely="-20" valLabelx="0" boardPos="-1e+6,-1e+6" id="SerialPort-214" Mcu_Uart="1" itemtype="SerialPort" Show_id="false" rotation="0"/>
 
 Unique  Id: Connector-3: 
 Circuit Id: Connector-3
