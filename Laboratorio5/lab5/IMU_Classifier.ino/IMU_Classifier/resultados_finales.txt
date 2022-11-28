@@ -1,0 +1,47 @@
+punch: 0.000000
+flex: 0.009725
+uphand: 0.990275
+
+punch: 0.000000
+flex: 0.644651
+uphand: 0.355349
+
+punch: 0.000000
+flex: 0.788764
+uphand: 0.211236
+
+punch: 0.000000
+flex: 0.007809
+uphand: 0.992191
+
+punch: 0.000000
+flex: 0.809813
+uphand: 0.190187
+
+punch: 0.000000
+flex: 0.959719
+uphand: 0.040281
+
+punch: 0.000000
+flex: 0.088709
+uphand: 0.911291
+
+punch: 0.000000
+flex: 0.981096
+uphand: 0.018904
+
+punch: 0.000000
+flex: 0.987685
+uphand: 0.012315
+
+punch: 0.000000
+flex: 0.981271
+uphand: 0.018729
+
+punch: 0.000000
+flex: 0.999009
+uphand: 0.000991
+
+punch: 0.000000
+flex: 0.999431
+uphand: 0.000569
